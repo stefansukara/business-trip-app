@@ -1,0 +1,43 @@
+.body{
+    padding:5px;
+    margin:10px;
+    min-height: 500px;
+}
+.left-side{
+    border-right: 1px solid black;
+    overflow: hidden;
+    word-wrap: break-word;
+    padding-right:0px;
+}
+.right-side{
+    overflow: hidden;
+    word-wrap: break-word;
+    border-left: 0px;
+}
+.company-name{
+    /* style:bold; */
+    border-bottom: 1px black solid;
+    margin-top:0px;
+    margin-bottom: 10px;
+    width: 70%;
+}
+p{
+    margin-top:0px;
+    margin-bottom: 2px;
+}
+input {
+    background-color:transparent;
+    border-bottom: 1px solid;
+    border-top: 0px;
+    border-right: 0px;
+    border-left: 0px;
+    height:30px;
+    width:150px;
+    margin-right:20%;
+}
+input:focus {
+    outline:none;
+}
+h2{
+  margin-top:5px;
+}
