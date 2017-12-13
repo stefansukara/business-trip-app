@@ -10,18 +10,19 @@
   <link rel="stylesheet" href="css/login.css">
   <link rel="stylesheet" href="css/add-person.css">
   <link rel="stylesheet" type="text/css" href="css/print.css">
+  <link rel="stylesheet" href="/maps/documentation/javascript/demos/demos.css">
 </head>
 
 <body>
   <div class="container-dash-fluid" id="con">
     <img style="width:300px;" src="http://jsguru.io/wp-content/uploads/2017/02/jsguru_wh_large.png">
-    <h1 class="text-center ">WELCOME!</h1>
+    <!-- <h1 class="text-center ">WELCOME!</h1> -->
     <h1 class="text-center ">Business TRIP-app</h1>
     <div class="login-page">
-      <div class="form">
-        <input type="text" placeholder="username" />
-        <input type="password" placeholder="password" />
-        <button type="button" class="btn btn-success center-block" onclick="app()">Click here to init</button>
+      <div class="form-login">
+        <input type="text" placeholder="username" class="form-login input" />
+        <input type="password" placeholder="password" class="form-login input" />
+        <button type="button" class="btn btn-success center-block form-login button" onclick="app()">Click here to init</button>
       </div>
     </div>
   </div>
@@ -38,6 +39,9 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
     crossorigin="anonymous">
   <script src="/src/index.js"></script>
+  <!-- API maps -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCL8hbtDdyI1wWhrtyebSc2LaMlV1_lsko">
+  </script>
 </body>
 
 </html>

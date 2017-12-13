@@ -37,7 +37,7 @@ const app = () => {
 let selectedIndex = 0;
 const menunav = (item) => {
     const home = document.createElement('a');
-    const homeText = document.createTextNode("Reports");
+    const homeText = document.createTextNode("IZVJEŠTAJI");
     home.setAttribute('class', 'navbar-brand');
     home.appendChild(homeText);
     item.appendChild(home);
@@ -150,54 +150,61 @@ const render = (person) => {
 
 const addUser = () => {
     rightside.innerHTML = "";
+    rightside.setAttribute('class', 'rightside-add');
     //create form here 
     const createform = document.createElement('form'); // Create New Element Form
     // createform.setAttribute("action", "");
     createform.setAttribute("method", "post");
     createform.setAttribute("onsubmit", "event.preventDefault(); return addInDatabase(document.getElementById(\"firstname\").value, document.getElementById(\"lastname\").value, document.getElementById(\"position\").value, document.getElementById(\"description\").value )");
+    createform.setAttribute("class", "contactForm");
 
-    const firstNameLabel = document.createElement('label');
-    firstNameLabel.innerHTML = "FirstName : ";
-    createform.appendChild(firstNameLabel);
+    const date1 = document.createElement('label');
+    date1.innerHTML = "Ime : ";
+    createform.appendChild(date1);
 
-    var firstNameElement = document.createElement('input'); // Create Input Field for FirstName
-    firstNameElement.setAttribute("type", "text");
-    firstNameElement.setAttribute("Id", "firstname");
-    createform.appendChild(firstNameElement);
+    const date1Element = document.createElement('input'); // Create Input Field for FirstName
+    date1Element.setAttribute("type", "text");
+    date1Element.setAttribute("Id", "firstname");
+    date1Element.setAttribute("required", "");
+    createform.appendChild(date1Element);
 
     var linebreak = document.createElement('br');
     createform.appendChild(linebreak);
 
-    var lastNameLabel = document.createElement('label');
-    lastNameLabel.innerHTML = "Last Name : ";
-    createform.appendChild(lastNameLabel);
+    const dataLabel = document.createElement('label');
+    dataLabel.innerHTML = "Prezime : ";
+    createform.appendChild(dataLabel);
 
-    var lastNameElement = document.createElement('input'); // Create Input Field LastName
-    lastNameElement.setAttribute("type", "text");
-    lastNameElement.setAttribute("Id", "lastname");
-    createform.appendChild(lastNameElement);
+    const dataElement = document.createElement('input'); // Create Input Field LastName
+    dataElement.setAttribute("type", "text");
+    dataElement.setAttribute("Id", "lastname");
+    dataElement.setAttribute("required", "");
+    createform.appendChild(dataElement);
 
-    var emailbreak = document.createElement('br');
+    const emailbreak = document.createElement('br');
     createform.appendChild(emailbreak);
 
     const positionLabel = document.createElement('label');
-    positionLabel.innerHTML = "Position : ";
+    positionLabel.innerHTML = "Pozicija : ";
     createform.appendChild(positionLabel);
 
-    var positionElement = document.createElement('input'); // Create Input Field for FirstName
+    const positionElement = document.createElement('input'); // Create Input Field for FirstName
     positionElement.setAttribute("type", "text");
     positionElement.setAttribute("Id", "position");
+    positionElement.setAttribute("required", "");
+
     createform.appendChild(positionElement);
 
     var linebreak = document.createElement('br');
     createform.appendChild(linebreak);
 
     const descriptionLabel = document.createElement('label'); // Append Description
-    descriptionLabel.innerHTML = "Description : ";
+    descriptionLabel.innerHTML = "Deskripcija : ";
     createform.appendChild(descriptionLabel);
 
     const descriptionElement = document.createElement('textarea');
     descriptionElement.setAttribute("Id", "description");
+    descriptionElement.setAttribute("required", "");
     createform.appendChild(descriptionElement);
 
     const messagebreak = document.createElement('br');
@@ -206,7 +213,7 @@ const addUser = () => {
     const submitElement = document.createElement('input'); // Append Submit Button
     submitElement.setAttribute("type", "submit");
     submitElement.setAttribute("name", "submit");
-    submitElement.setAttribute("value", "Submit");
+    submitElement.setAttribute("value", "Dodaj novu osobu");
     createform.appendChild(submitElement);
     rightside.appendChild(createform);
 }
@@ -217,7 +224,7 @@ const addInDatabase = (firstname, lastname, position, description) => {
         if (ourTeam[j].Id > maxId) maxId = ourTeam[j].Id;
     }
     const id = maxId + 1;
-    const reports = ["report"];
+    const reports = ["Putni nalog"];
     let pomTeam = [
         ...ourTeam, {
             Description: description,
@@ -289,7 +296,6 @@ renderPerson = () => {
             rightside.appendChild(field);
             field.setAttribute('class', 'field');
             field.setAttribute('Id', 'field');
-
             const buttonAddDiv = document.createElement('div');
             const buttonAdd = document.createElement("button");
             buttonAdd.setAttribute('class', 'buttonAdd');
@@ -309,8 +315,178 @@ renderPerson = () => {
 
 const newReport = () => {
     field.innerHTML = "";
-    //create form 
-    
-    //x add to field
+    //create form here 
+    const createform = document.createElement('form'); // Create New Element Form
+    // createform.setAttribute("action", "");
+    createform.setAttribute("method", "post");
+    createform.setAttribute("class", "form-newReport");
+    // createform.setAttribute("onsubmit", "event.preventDefault(); return addInDatabase(document.getElementById(\"firstname\").value, document.getElementById(\"lastname\").value, document.getElementById(\"position\").value, document.getElementById(\"description\").value )");
 
+    const rowDate = document.createElement('div');
+    rowDate.setAttribute("class", "rowDate");
+    createform.appendChild(rowDate);
+
+    const date1 = document.createElement('label');
+    date1.innerHTML = "Datum polaska: ";
+    rowDate.appendChild(date1);
+
+    const date1Element = document.createElement('input'); // Create Input Field for FirstName
+    date1Element.setAttribute("type", "date");
+    date1Element.setAttribute("value", "2018-01-01");
+    date1Element.setAttribute("Id", "date");
+    rowDate.appendChild(date1Element);
+
+    const date2 = document.createElement('label');
+    date2.innerHTML = "Datum dolaska: ";
+    rowDate.appendChild(date2);
+
+    const date2Element = document.createElement('input'); // Create Input Field for FirstName
+    date2Element.setAttribute("type", "date");
+    date2Element.setAttribute("Id", "date");
+    rowDate.appendChild(date2Element);
+
+    let br = document.createElement('br');
+    createform.appendChild(br);
+
+    const ch1Label = document.createElement('label')
+    ch1Label.innerHTML = "Domaća";
+    createform.appendChild(ch1Label);
+
+    const ch1 = document.createElement('input');
+    ch1.type = "checkbox";
+    ch1.name = "ch1";
+    ch1.value = "EX-YU";
+    ch1.id = "id";
+
+    createform.appendChild(br);
+
+    const costsLabel = document.createElement('label');
+    costsLabel.innerHTML = "Troškove snosi : ";
+    createform.appendChild(costsLabel);
+
+    //Dropdown list costs
+    const dropdown = document.createElement('buttom');
+    createform.appendChild(dropdown);
+    dropdown.setAttribute("class", "buttom-costs");
+    const dropdownMenu = document.createElement('select');
+    dropdown.appendChild(dropdownMenu);
+    // dropdownMenu.setAttribute("class", "dropdown-select");
+    const a1 = document.createElement('option');
+    a1.value = "kompanija";
+    a1.innerHTML = "Kompanija";
+    const a2 = document.createElement('option');
+    a2.value = "zaposleni";
+    a2.innerHTML = "Zaposleni";
+    dropdownMenu.appendChild(a1);
+    dropdownMenu.appendChild(a2);
+
+    // dropdown.innerHTML='
+    //         <a href="#">Link 1</a>
+    //         <a href="#">Link 2</a>
+    const positionLabel = document.createElement('label');
+    positionLabel.innerHTML = "Lokacija : ";
+    createform.appendChild(positionLabel);
+
+    const positionElement = document.createElement('input'); // Create Input Field for FirstName
+    positionElement.setAttribute("type", "text");
+    positionElement.setAttribute("Id", "mapsearch");
+    createform.appendChild(positionElement);
+
+    const buttonMap = document.createElement('button');
+    buttonMap.setAttribute("class", "addLocation");
+    buttonMap.setAttribute("Id", "end");
+    buttonMap.addEventListener("click", initMap);
+    createform.appendChild(buttonMap);
+
+    const mapElement = document.createElement('div'); //create map
+    mapElement.setAttribute("Id", "map");
+    createform.appendChild(mapElement);
+
+    // function initMap() {
+    //     var directionsService = new google.maps.DirectionsService;
+    //     var directionsDisplay = new google.maps.DirectionsRenderer;
+    //     var map = new google.maps.Map(document.getElementById('map'), {
+    //         zoom: 7,
+    //         center: { lat: 44.77583, lng: 17.18556 }
+    //     });
+    //     directionsDisplay.setMap(map);
+
+    //     var onChangeHandler = () => {
+    //         calculateAndDisplayRoute(directionsService, directionsDisplay);
+    //     };
+    //     document.getElementById('end').addEventListener('change', onChangeHandler);
+    // }
+
+    // function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+    //     directionsService.route({
+    //         origin: { lat: 44.77583, lng: 17.18556 },
+    //         destination: document.getElementById('end').value,
+    //         travelMode: 'DRIVING'
+    //     }, function (response, status) {
+    //         if (status === 'OK') {
+    //             directionsDisplay.setDirections(response);
+    //         } else {
+    //             window.alert('Directions request failed due to ' + status);
+    //         }
+    //     });
+    // }
+
+    //map
+    function initMap (){
+        mapElement.innerHTML = "";
+        //Map options
+        const options = {
+            zoom: 8,
+            center: { lat: 44.77583, lng: 17.18556 }
+        }
+        //New map
+        const map = new google.maps.Map(document.getElementById('map'), options);
+        //Add marker
+        const marker = new google.maps.Marker({
+            position: { lat: 44.77583, lng: 17.18556 },
+            map: map
+        });
+        //New infoWindow
+        // const infoWindow = new google.maps.infoWindow({
+        //     content: '<h1>Grad</h1>'
+        // });
+
+        // marker.addListener("click", () => {
+        //     infoWindow.open(map, marker);
+        // });
+
+    }
+
+    var linebreak = document.createElement('br');
+    createform.appendChild(linebreak);
+
+    const transportLabel = document.createElement('label');
+    transportLabel.innerHTML = "Vrsta prevoza : ";
+    createform.appendChild(transportLabel);
+
+    //Dropdown list type of transport
+    const dropdown2 = document.createElement('buttom');
+    createform.appendChild(dropdown2);
+    dropdown2.setAttribute("class", "buttom-costs");
+    const dropdownMenu2 = document.createElement('select');
+    dropdown2.appendChild(dropdownMenu2);
+    const a1second = document.createElement('option');
+    a1second.value = "sluzbeno vozilo";
+    a1second.innerHTML = "Službeno vozilo";
+    const a2second = document.createElement('option');
+    a2second.value = "licno vozilo";
+    a2second.innerHTML = "Lično vozilo";
+    dropdownMenu2.appendChild(a1second);
+    dropdownMenu2.appendChild(a2second);
+
+    const messagebreak = document.createElement('br');
+    createform.appendChild(messagebreak);
+
+    const submitElement = document.createElement('buttom'); // Append Submit Button
+    submitElement.setAttribute("type", "submit");
+    submitElement.setAttribute("name", "submit");
+    submitElement.setAttribute("class", "submit");
+    submitElement.innerHTML="ZAVRŠI";
+    createform.appendChild(submitElement);
+    field.appendChild(createform);
 }

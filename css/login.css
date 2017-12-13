@@ -1,6 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:300);
 
-.form {
+.form-login {
   border-radius: 25px;
   position: relative;
   z-index: 1;
@@ -11,7 +11,7 @@
   text-align: center;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
-.form input {
+.form-login input{
   font-family: "Roboto", sans-serif;
   outline: 0;
   background: #f2f2f2;
@@ -22,7 +22,7 @@
   box-sizing: border-box;
   font-size: 14px;
 }
-.form button {
+.form-login button {
   font-family: "Roboto", sans-serif;
   text-transform: uppercase;
   outline: 0;
@@ -36,6 +36,6 @@
   transition: all 0.3 ease;
   cursor: pointer;
 }
-.form button:hover,.form button:active,.form button:focus {
+.form-login button:hover,.form button:active,.form button:focus {
   background: #43A047;
 }
