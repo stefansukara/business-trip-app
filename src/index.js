@@ -1,5 +1,5 @@
 firebase.initializeApp({
-    apiKey: "AIzaSyDOjguqVAsE00zAjmLbRdHWE2qh-4N45Hw",
+    apiKey: "AIzaSyCL8hbtDdyI1wWhrtyebSc2LaMlV1_lsko",
     databaseURL: "https://business-trip-app.firebaseio.com",
     storageBucket: "business-trip-app.appspot.com",
     authDomain: "business-trip-app.firebaseapp.com",
@@ -18,6 +18,38 @@ let ourTeamPlus = [
     }
 ];
 
+const loginMe = () => {
+
+    const email = document.getElementById("login-email").value;
+    const password = document.getElementById("login-password").value;
+    firebase.auth().signInWithEmailAndPassword(email, password)
+        .then(() => {
+            firebase.auth().onAuthStateChanged(user => { if (user) app() });
+        })
+        .catch(error => {
+            try {
+                document.getElementById("login-email").innerHTML = "";
+                document.getElementById("login-password").innerHTML = "";
+                document.getElementById("button").innerHTML = "Sign up";
+                document.getElementById("button").setAttribute("onclick", "signUp()");
+            } catch (error2) {
+                console.log(error2)
+            }
+            console.log(error)
+        });
+}
+
+const signUp = () => {
+    const email = document.getElementById("login-email").value;
+    const password = document.getElementById("login-password").value;
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then(() => {
+            console.log(email);
+            console.log(password);
+            console.log("Uspjesno registrovan!");
+            app();
+        });
+}
 const app = () => {
     database
         .then((snapshot) => {
@@ -35,6 +67,8 @@ const app = () => {
         .catch((e) => { console.log(e) })
 }
 let selectedIndex = 0;
+let selectedID = 0;
+let reportNumber = 0;
 const menunav = (item) => {
     const home = document.createElement('a');
     const homeText = document.createTextNode("IZVJEŠTAJI");
@@ -47,6 +81,9 @@ const container = document.getElementById('con');
 const rightside = document.createElement('div');
 
 const appinit = () => {
+    selectedIndex = 0;
+    selectedID = 0;
+    reportNumber = 0;
     container.innerHTML = "";
     container.setAttribute('class', 'container-start row');
     rightside.setAttribute('class', 'rightside');
@@ -95,6 +132,7 @@ const render = (person) => {
             history.pushState({}, `${person.FirstName} ${person.LastName}`, `${person.FirstName}-${person.LastName}`);
             person.Selected = true;
             selectedIndex = person.Id;
+            selectedID = person.Id;
             ourTeam.map(item => {
                 if (item.Id != selectedIndex) {
                     item.Selected = false;
@@ -132,18 +170,6 @@ const render = (person) => {
             addUser();
 
         })
-        // window.onpopstate = (event) => {
-        //     rightside.innerHTML = "";
-        //     database = firebase.database().ref('/users').once('value')
-        //     database.then((snapshot) => {
-        //         const team = [
-        //             ...snapshot.val(),
-        //             ourTeamPlus[0]
-        //         ];
-        //         ourTeam = team;
-        //     })
-        //     appinit();
-        // }
     }
 
 }
@@ -224,7 +250,17 @@ const addInDatabase = (firstname, lastname, position, description) => {
         if (ourTeam[j].Id > maxId) maxId = ourTeam[j].Id;
     }
     const id = maxId + 1;
-    const reports = ["Putni nalog"];
+    const reports = {
+        0: {
+            reportName: "reportName",
+            date1: "date1",
+            date2: "date2",
+            dailyEarnings: "deilyEarnings",
+            costs: "Kompanija",
+            distance: "distance",
+            typeOfTransport: "Sluzbeno"
+        }
+    };
     let pomTeam = [
         ...ourTeam, {
             Description: description,
@@ -236,9 +272,7 @@ const addInDatabase = (firstname, lastname, position, description) => {
             Selected: true
         }];
     ourTeam = pomTeam.filter(item => item.Id != 0);
-    console.log(ourTeam);
     firebase.database().ref('/users').set(ourTeam);
-
     rightside.innerHTML = "";
     database = firebase.database().ref('/users').once('value')
     database.then((snapshot) => {
@@ -280,13 +314,17 @@ renderPerson = () => {
 
             const cardReports = document.createElement('div');
 
-            item.Reports.map(item => {
+            for (let i in item.Reports) {
+                reportNumber++;
+                console.log(`Ovo je broj reportova : ${reportNumber}`);
+                console.log(`Report-item : ${item.Reports[reportNumber - 1]}`);
+                console.log(`Ovo je ime svakog reporta : ${item.Reports[reportNumber - 1].reportName}`);
                 const divReport = document.createElement('div');
                 divReport.setAttribute('class', 'personReports');
-                const cardReportsText = document.createTextNode(`${item} `);
+                const cardReportsText = document.createTextNode(`${item.Reports[reportNumber - 1].reportName}`);
                 divReport.appendChild(cardReportsText);
                 cardReports.appendChild(divReport);
-            })
+            }
             cardReports.setAttribute('class', 'cardReports');
             card.appendChild(cardReports);
 
@@ -314,14 +352,14 @@ renderPerson = () => {
 }
 
 const newReport = () => {
+    const distance = [];
     field.innerHTML = "";
     //create form here 
     const createform = document.createElement('form'); // Create New Element Form
     // createform.setAttribute("action", "");
     createform.setAttribute("method", "post");
     createform.setAttribute("class", "form-newReport");
-    // createform.setAttribute("onsubmit", "event.preventDefault(); return addInDatabase(document.getElementById(\"firstname\").value, document.getElementById(\"lastname\").value, document.getElementById(\"position\").value, document.getElementById(\"description\").value )");
-
+    createform.setAttribute("onsubmit", "event.preventDefault(); return addReport(document.getElementById(\"mapsearch\").value, document.getElementById(\"date1\").value, document.getElementById(\"date2\").value)");
     const rowDate = document.createElement('div');
     rowDate.setAttribute("class", "rowDate");
     createform.appendChild(rowDate);
@@ -330,33 +368,66 @@ const newReport = () => {
     date1.innerHTML = "Datum polaska: ";
     rowDate.appendChild(date1);
 
-    const date1Element = document.createElement('input'); // Create Input Field for FirstName
-    date1Element.setAttribute("type", "date");
-    date1Element.setAttribute("value", "2018-01-01");
-    date1Element.setAttribute("Id", "date");
+    const date1Element = document.createElement('input');
+    // date1Element.setAttribute("type", "date");
+    date1Element.setAttribute("value", `${new Date().getDate()}.${new Date().getMonth() + 1}.${new Date().getFullYear()}.`);
+    date1Element.setAttribute("Id", "date1");
     rowDate.appendChild(date1Element);
 
     const date2 = document.createElement('label');
     date2.innerHTML = "Datum dolaska: ";
     rowDate.appendChild(date2);
 
-    const date2Element = document.createElement('input'); // Create Input Field for FirstName
-    date2Element.setAttribute("type", "date");
-    date2Element.setAttribute("Id", "date");
+    const date2Element = document.createElement('input');
+    // date2Element.setAttribute("type", "date");
+    date2Element.setAttribute("value", `${new Date().getDate() + 3}.${new Date().getMonth() + 1}.${new Date().getFullYear()}.`);
+    date2Element.setAttribute("Id", "date2");
     rowDate.appendChild(date2Element);
 
     let br = document.createElement('br');
     createform.appendChild(br);
 
-    const ch1Label = document.createElement('label')
-    ch1Label.innerHTML = "Domaća";
-    createform.appendChild(ch1Label);
+    //Radio
+    const checkboxLabel = document.createElement('label');
+    checkboxLabel.innerHTML = "Dnevnica : ";
+    createform.appendChild(checkboxLabel);
+
+    const labelRadio1 = document.createElement('label');
+    // labelRadio1.setAttribute("class", "radio");
+    createform.appendChild(labelRadio1);
+    labelRadio1.innerHTML = "EX-YU";
 
     const ch1 = document.createElement('input');
-    ch1.type = "checkbox";
-    ch1.name = "ch1";
-    ch1.value = "EX-YU";
-    ch1.id = "id";
+    ch1.setAttribute("type", "radio");
+    ch1.setAttribute("name", "radioButton");
+    ch1.setAttribute("value", "EX-YU");
+    ch1.setAttribute("id", "choice1");
+    createform.appendChild(ch1);
+
+    const labelRadio2 = document.createElement('label');
+    // labelRadio2.setAttribute("class", "radio");
+    createform.appendChild(labelRadio2);
+    labelRadio2.innerHTML = "domaća";
+
+    const ch2 = document.createElement('input');
+    ch2.setAttribute("checked", "checked");
+    ch2.setAttribute("type", "radio");
+    ch2.setAttribute("name", "radioButton");
+    ch2.setAttribute("value", "domaća");
+    ch2.setAttribute("id", "choice2");
+    createform.appendChild(ch2);
+
+    const labelRadio3 = document.createElement('label');
+    // labelRadio3.setAttribute("class", "radio");
+    createform.appendChild(labelRadio3);
+    labelRadio3.innerHTML = "strana";
+
+    const ch3 = document.createElement('input');
+    ch3.setAttribute("type", "radio");
+    ch3.setAttribute("value", "strana");
+    ch3.setAttribute("name", "radioButton");
+    ch3.setAttribute("id", "choice3");
+    createform.appendChild(ch3);
 
     createform.appendChild(br);
 
@@ -369,20 +440,20 @@ const newReport = () => {
     createform.appendChild(dropdown);
     dropdown.setAttribute("class", "buttom-costs");
     const dropdownMenu = document.createElement('select');
+    dropdownMenu.setAttribute("id", "dropdownItem");
     dropdown.appendChild(dropdownMenu);
     // dropdownMenu.setAttribute("class", "dropdown-select");
     const a1 = document.createElement('option');
+    a1.setAttribute("name", "dropdowna");
     a1.value = "kompanija";
     a1.innerHTML = "Kompanija";
     const a2 = document.createElement('option');
+    a2.setAttribute("name", "dropdowna");
     a2.value = "zaposleni";
     a2.innerHTML = "Zaposleni";
     dropdownMenu.appendChild(a1);
     dropdownMenu.appendChild(a2);
 
-    // dropdown.innerHTML='
-    //         <a href="#">Link 1</a>
-    //         <a href="#">Link 2</a>
     const positionLabel = document.createElement('label');
     positionLabel.innerHTML = "Lokacija : ";
     createform.appendChild(positionLabel);
@@ -390,72 +461,56 @@ const newReport = () => {
     const positionElement = document.createElement('input'); // Create Input Field for FirstName
     positionElement.setAttribute("type", "text");
     positionElement.setAttribute("Id", "mapsearch");
+    positionElement.setAttribute("required", "");
     createform.appendChild(positionElement);
 
-    const buttonMap = document.createElement('button');
-    buttonMap.setAttribute("class", "addLocation");
-    buttonMap.setAttribute("Id", "end");
-    buttonMap.addEventListener("click", initMap);
-    createform.appendChild(buttonMap);
-
     const mapElement = document.createElement('div'); //create map
-    mapElement.setAttribute("Id", "map");
+    mapElement.setAttribute("Id", "mapElement");
     createform.appendChild(mapElement);
 
-    // function initMap() {
-    //     var directionsService = new google.maps.DirectionsService;
-    //     var directionsDisplay = new google.maps.DirectionsRenderer;
-    //     var map = new google.maps.Map(document.getElementById('map'), {
-    //         zoom: 7,
-    //         center: { lat: 44.77583, lng: 17.18556 }
-    //     });
-    //     directionsDisplay.setMap(map);
+    const initMap = () => {
+        const directionsService = new google.maps.DirectionsService;
+        const directionsDisplay = new google.maps.DirectionsRenderer;
+        const map = new google.maps.Map(document.getElementById('mapElement'), {
+            zoom: 7,
+            center: { lat: 44.77583, lng: 17.18556 }
+        });
+        directionsDisplay.setMap(map);
 
-    //     var onChangeHandler = () => {
-    //         calculateAndDisplayRoute(directionsService, directionsDisplay);
-    //     };
-    //     document.getElementById('end').addEventListener('change', onChangeHandler);
-    // }
+        const onChangeHandler = () => {
+            calculateAndDisplayRoute(directionsService, directionsDisplay);
+        };
+        document.getElementById('mapsearch').addEventListener('change', onChangeHandler);
+    }
 
-    // function calculateAndDisplayRoute(directionsService, directionsDisplay) {
-    //     directionsService.route({
-    //         origin: { lat: 44.77583, lng: 17.18556 },
-    //         destination: document.getElementById('end').value,
-    //         travelMode: 'DRIVING'
-    //     }, function (response, status) {
-    //         if (status === 'OK') {
-    //             directionsDisplay.setDirections(response);
-    //         } else {
-    //             window.alert('Directions request failed due to ' + status);
-    //         }
-    //     });
-    // }
+    calculateAndDisplayRoute = (directionsService, directionsDisplay) => {
+        directionsService.route({
+            origin: { lat: 44.77583, lng: 17.18556 },
+            destination: document.getElementById('mapsearch').value,
+            travelMode: 'DRIVING'
+        }, (response, status) => {
+            if (status === 'OK') {
+                const distance = response["routes"][0]["legs"][0]["distance"].text;
+                console.log(distance);
+                directionsDisplay.setDirections(response);
+            } else {
+                window.alert('Directions request failed due to ' + status);
+            }
+        });
+    }
 
     //map
-    function initMap (){
-        mapElement.innerHTML = "";
-        //Map options
-        const options = {
-            zoom: 8,
-            center: { lat: 44.77583, lng: 17.18556 }
-        }
-        //New map
-        const map = new google.maps.Map(document.getElementById('map'), options);
-        //Add marker
-        const marker = new google.maps.Marker({
-            position: { lat: 44.77583, lng: 17.18556 },
-            map: map
-        });
-        //New infoWindow
-        // const infoWindow = new google.maps.infoWindow({
-        //     content: '<h1>Grad</h1>'
-        // });
+    //     })
+    //     //New infoWindow
+    //     // const infoWindow = new google.maps.infoWindow({
+    //     //     content: '<h1>Grad</h1>'
+    //     // });
 
-        // marker.addListener("click", () => {
-        //     infoWindow.open(map, marker);
-        // });
+    //     // marker.addListener("click", () => {
+    //     //     infoWindow.open(map, marker);
+    //     // });
 
-    }
+    // }
 
     var linebreak = document.createElement('br');
     createform.appendChild(linebreak);
@@ -482,11 +537,40 @@ const newReport = () => {
     const messagebreak = document.createElement('br');
     createform.appendChild(messagebreak);
 
-    const submitElement = document.createElement('buttom'); // Append Submit Button
+    const submitElement = document.createElement('input'); // Append Submit Button
     submitElement.setAttribute("type", "submit");
     submitElement.setAttribute("name", "submit");
     submitElement.setAttribute("class", "submit");
-    submitElement.innerHTML="ZAVRŠI";
+    submitElement.setAttribute("value", "ZAVRŠI");
+
     createform.appendChild(submitElement);
     field.appendChild(createform);
+    initMap();
+}
+
+const addReport = (reportName, date1, date2, distance) => {
+    const newReportAdd = {
+        reportName: reportName,
+        date1: date1,
+        date2: date2,
+        dailyEarnings: document.querySelector(`input[name=\"radioButton\"]:checked`).value,
+        costs: "Kompanija",
+        distance: "distance",
+        typeOfTransport: "Sluzbeno"
+    }
+    // firebase.database().ref(`users/`).once('value').then((snapshot) => {
+    //     snapshot.val()[selectedID].Reports = newReportAdd;
+    // })
+    firebase.database().ref(`/users/${selectedID - 1}/Reports/${reportNumber}`).set(newReportAdd);
+    console.log(newReportAdd);
+
+    firebase.database().ref('/users').once('value').then((snapshot) => {
+        const team = [
+            ...snapshot.val(),
+            ourTeamPlus[0]
+        ];
+        ourTeam = team;
+    })
+    history.back(-2);
+    appinit();
 }

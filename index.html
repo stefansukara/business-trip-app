@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -10,7 +9,7 @@
   <link rel="stylesheet" href="css/login.css">
   <link rel="stylesheet" href="css/add-person.css">
   <link rel="stylesheet" type="text/css" href="css/print.css">
-  <link rel="stylesheet" href="/maps/documentation/javascript/demos/demos.css">
+  <!-- <link rel="stylesheet" href="/maps/documentation/javascript/demos/demos.css"> -->
 </head>
 
 <body>
@@ -19,11 +18,12 @@
     <!-- <h1 class="text-center ">WELCOME!</h1> -->
     <h1 class="text-center ">Business TRIP-app</h1>
     <div class="login-page">
-      <div class="form-login">
-        <input type="text" placeholder="username" class="form-login input" />
-        <input type="password" placeholder="password" class="form-login input" />
-        <button type="button" class="btn btn-success center-block form-login button" onclick="app()">Click here to init</button>
-      </div>
+      <form class="form-login" method="POST">
+        <input type="email" id="login-email" placeholder="username" class="form-login input" required/>
+        <input type="password" id="login-password" placeholder="password" class="form-login input" required />
+        <button type="button" id="button" class="btn btn-success center-block form-login button" onclick="loginMe()">Log in</button>
+        <!-- <button type="button" class="btn btn-danger center-block form-register button" onclick="">Register</button> -->
+      </form>
     </div>
   </div>
   <!-- PrintJS -->
@@ -38,10 +38,11 @@
     crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
     crossorigin="anonymous">
-  <script src="/src/index.js"></script>
+  <script src="src/index.js"></script>
   <!-- API maps -->
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCL8hbtDdyI1wWhrtyebSc2LaMlV1_lsko">
   </script>
+  <!-- <script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyDn__tAAmi34P9vWWOB2mR9oSEH_-e2Iy4"></script> -->
 </body>
 
 </html>

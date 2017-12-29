@@ -4,7 +4,7 @@ body,html{
     width:100%;
 }
 .container-dash-fluid{
-    height: 637px;
+    height: 100%;
     max-width:100%;
     padding: 50px;
     margin:0px;
@@ -14,7 +14,7 @@ body,html{
 .navigator{
     float:left;
     min-width:250px;
-    height:637px;
+    height:100%;
     background-color: #619eb6;
     border-right: 2px rgb(187, 150, 29) solid;
     padding:20px;
@@ -30,7 +30,7 @@ body,html{
 .navigator a{
  overflow: hidden;   
  color:black;
- padding-left:15%;
+ text-align: center; 
  font-family: Arial;
  font-size: 30px;
 }
@@ -187,14 +187,15 @@ body,html{
 }
 .submit{
     width:100%;
+    min-height:80px;
     padding: 15px;
     background-color: rgb(127, 211, 94);
     color:white;
     font-size:24px;
     text-align: center;
 }
-#map{
-    min-height: 300px;
+#mapElement{
+    min-height: 350px;
     width: 640px;
 }
 #mapsearch{
@@ -207,4 +208,8 @@ body,html{
 .buttom-costs{
  widows: 91px;
  padding:10px;
+}
+#date1, #date2{
+    text-align: center;
+    margin:5px;
 }

@@ -1,0 +1,89 @@
+{
+    "users": [
+        {
+            "Id": 1,
+            "FirstName": "Dragan",
+            "LastName": "Knezevic",
+            "Position": "Programer",
+            "Description": "Description for this person.",
+            "Reports": {
+                "0": {
+                    "reportName": "reportName",
+                    "date1": "date1",
+                    "date2": "date2",
+                    "dailyEarnings": "deilyEarnings",
+                    "costs": "Kompanija",
+                    "distance": "distance",
+                    "typeOfTransport": "Sluzbeno"
+                },
+                "1": {
+                    "reportName": "reportName",
+                    "date1": "date1",
+                    "date2": "date2",
+                    "dailyEarnings": "deilyEarnings",
+                    "costs": "Kompanija",
+                    "distance": "distance",
+                    "typeOfTransport": "Sluzbeno"
+                }
+            },
+            "Selected": true
+        },
+        {
+            "Id": 2,
+            "FirstName": "Djordje",
+            "LastName": "Nikolic",
+            "Position": "Programer",
+            "Description": "Description for this person.",
+            "Reports": {
+                "0": {
+                    "reportName": "reportName",
+                    "date1": "date1",
+                    "date2": "date2",
+                    "dailyEarnings": "deilyEarnings",
+                    "costs": "Kompanija",
+                    "distance": "distance",
+                    "typeOfTransport": "Sluzbeno"
+                }
+            },
+            "Selected": true
+        },
+        {
+            "Id": 3,
+            "FirstName": "Andrej",
+            "LastName": "Kaurin",
+            "Position": "Programer",
+            "Description": "Description for this person.",
+            "Reports": {
+                "0": {
+                    "reportName": "reportName",
+                    "date1": "date1",
+                    "date2": "date2",
+                    "dailyEarnings": "deilyEarnings",
+                    "costs": "Kompanija",
+                    "distance": "distance",
+                    "typeOfTransport": "Sluzbeno"
+                }
+            },
+            "Selected": true
+        },
+        {
+            "Id": 4,
+            "FirstName": "Bojan",
+            "LastName": "Gvozderac",
+            "Position": "Programer",
+            "Description": "Description for this person.",
+            "Reports": {
+                "0": {
+                    "reportName": "reportName",
+                    "date1": "date1",
+                    "date2": "date2",
+                    "dailyEarnings": "deilyEarnings",
+                    "costs": "Kompanija",
+                    "distance": "distance",
+                    "typeOfTransport": "Sluzbeno"
+                }
+            },
+            "Selected": true
+        }
+    ]
+}

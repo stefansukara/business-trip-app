@@ -1,0 +1,31 @@
+{
+    "reports": [
+        {
+            "reportName": "reportName",
+            "date1": "12.14.2017.",
+            "date2": "12.19.2018",
+            "dailyEarnings": "strana",
+            "costs": "Kompanija",
+            "distance": "329 km",
+            "typeOfTransport": "Lično vozilo"
+        },
+        {
+            "reportName": "report2Name",
+            "date1": "12.14.2017.",
+            "date2": "12.19.2018",
+            "dailyEarnings": "domaca",
+            "costs": "Zaposleni",
+            "distance": "465 km",
+            "typeOfTransport": "Službeno vozilo"
+        },
+        {
+            "reportName": "report2Name",
+            "date1": "12.14.2017.",
+            "date2": "12.19.2018",
+            "dailyEarnings": "domaca",
+            "costs": "Zaposleni",
+            "distance": "465 km",
+            "typeOfTransport": "Službeno vozilo"
+        }
+    ]
+}
